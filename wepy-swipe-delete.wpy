@@ -1,0 +1,133 @@
+<style lang="less">
+.swipe-item-wrapper{
+  height: 90rpx;
+  position: relative;
+  overflow: hidden;
+  padding: 0 10px;
+  margin-top: 10rpx;
+  .swipe-actions{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 140rpx;
+    position: absolute;
+    top: 0;
+    z-index: 1;
+    &.actions-left{
+      left: 0;
+    }
+    &.actions-right{
+      right: 0;
+    }
+  }
+  .swipe-content{
+    width: 100%;
+    height: 100%;
+    line-height: 90rpx;
+    box-sizing: border-box;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 5;
+    padding:0 18rpx;
+    border-top: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
+    background-color: white;
+    .swipe-title {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+  .swipe-btn{
+    flex: 1;
+    height: 90rpx;
+    line-height: 90rpx;
+    text-align: center;
+    color: white;
+    &.del{
+      background-color: rgb(244, 51, 60);
+    }
+    &.edit{
+      background-color: rgb(16, 142, 233);
+    }
+  }
+}
+</style>
+<template>
+  <view class="swipe-item-wrapper">
+    <view
+      class="swipe-content"
+      style="left:{{swipeData.contentStyle === 0 ? '0' : swipeData.contentStyle + 'rpx'}}"
+      @touchstart="ts"
+      @touchmove="tm"
+      @touchend="te">
+      <slot></slot>
+    </view>
+    <view class="swipe-actions actions-right">
+      <view class="swipe-btn del" @tap.stop="handleRightBtnTap({{swipeData}})">删除</view>
+    </view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+
+  export default class Counter extends wepy.component {
+    props = {
+      swipeData: {
+        type: Object,
+        default: []
+      }
+    }
+
+    data = {
+      startX: null,
+      moveX: null
+    }
+
+    onLoad () {
+      this.swipeData.contentStyle = 0
+    }
+
+    methods = {
+      ts (e) {
+        if (e.touches.length === 1) {
+          this.startX = e.touches[0].clientX
+          this.moveX = e.touches[0].clientX
+        }
+      },
+      tm (e) {
+        if (e.touches.length === 1) {
+          // 手指起始点位置与移动期间的差值
+          var distenceX = this.moveX - e.touches[0].clientX
+          this.moveX = e.touches[0].clientX
+
+          if ((this.swipeData.contentStyle - distenceX) < -140) {
+            this.swipeData.contentStyle = -140
+          } else if ((this.swipeData.contentStyle - distenceX) > 0) {
+            this.swipeData.contentStyle = 0
+          } else {
+            this.swipeData.contentStyle = this.swipeData.contentStyle - distenceX
+          }
+        }
+      },
+
+      te (e) {
+        if (e.changedTouches.length === 1) {
+          if (this.swipeData.contentStyle <= -70) {
+            this.swipeData.contentStyle = -140
+          } else {
+            this.swipeData.contentStyle = 0
+          }
+        }
+      },
+      handleRightBtnTap (item) {
+        item = JSON.parse(JSON.stringify(item))
+        delete item.contentStyle
+        this.$emit('delItem', item)
+      }
+    }
+  }
+</script>

@@ -1,0 +1,23 @@
+{
+  "name": "wepy-swipe-delete",
+  "version": "1.0.1",
+  "description": "微信小程序框架wepy，滑动删除插件",
+  "main": "wepy-swipe-delete.wpy",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GeoffZhu/wepy-swipe-delete"
+  },
+  "author": "geoffzhu <geoffzhu1992@gmail.com>",
+  "keywords": [
+    "wepy",
+    "wepy-swipe",
+    "wepy-swipe-delete",
+    "wepy-swipe-action"
+  ],
+  "bugs": {
+    "url": "https://github.com/GeoffZhu/wepy-swipe-delete/issues"
+  },
+  "homepage": "http://geoffzhu.cn/wepy-swipe-delete/",
+  "license": "MIT"
+}
