@@ -1,6 +1,6 @@
 {
   "name": "wepy-swipe-delete",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "微信小程序框架wepy，滑动删除插件",
   "main": "wepy-swipe-delete.wpy",
   "scripts": {},

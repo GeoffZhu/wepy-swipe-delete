@@ -60,7 +60,7 @@
   <view class="swipe-item-wrapper">
     <view
       class="swipe-content"
-      style="left:{{swipeData.contentStyle === 0 ? '0' : swipeData.contentStyle + 'rpx'}}"
+      style="left:{{swipeData.style === 0 ? '0' : swipeData.style + 'rpx'}}"
       @touchstart="ts"
       @touchmove="tm"
       @touchend="te">
@@ -88,7 +88,7 @@
     }
 
     onLoad () {
-      this.swipeData.contentStyle = 0
+      this.swipeData.style = 0
     }
 
     methods = {
@@ -104,28 +104,34 @@
           var distenceX = this.moveX - e.touches[0].clientX
           this.moveX = e.touches[0].clientX
 
-          if ((this.swipeData.contentStyle - distenceX) < -140) {
-            this.swipeData.contentStyle = -140
-          } else if ((this.swipeData.contentStyle - distenceX) > 0) {
-            this.swipeData.contentStyle = 0
+          if ((this.swipeData.style - distenceX) < -140) {
+            this.swipeData.style = -140
+          } else if ((this.swipeData.style - distenceX) > 0) {
+            this.swipeData.style = 0
           } else {
-            this.swipeData.contentStyle = this.swipeData.contentStyle - distenceX
+            this.swipeData.style = this.swipeData.style - distenceX
           }
+          this.setData({
+            swipeData: this.props.swipeData
+          })
         }
       },
 
       te (e) {
         if (e.changedTouches.length === 1) {
-          if (this.swipeData.contentStyle <= -70) {
-            this.swipeData.contentStyle = -140
+          if (this.swipeData.style <= -70) {
+            this.swipeData.style = -140
           } else {
-            this.swipeData.contentStyle = 0
+            this.swipeData.style = 0
           }
+          this.setData({
+            swipeData: this.props.swipeData
+          })
         }
       },
       handleRightBtnTap (item) {
         item = JSON.parse(JSON.stringify(item))
-        delete item.contentStyle
+        delete item.style
         this.$emit('delItem', item)
       }
     }
