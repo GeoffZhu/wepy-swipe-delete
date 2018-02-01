@@ -1,4 +1,4 @@
-# wepy-swipe-delete
+# wepy-swipe-delete (废弃)
 
 > 微信小程序框架wepy - 滑动删除插件, 支持自定义内容区
 
